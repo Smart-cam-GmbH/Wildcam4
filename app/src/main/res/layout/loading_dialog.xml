@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/surface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/spacing_lg">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/loading_bar"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading Images"
+            android:textSize="@dimen/text_size_subtitle"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/spacing_md" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please wait..."
+            android:textSize="@dimen/text_size_body"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="@dimen/spacing_xs" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,19 @@
+{
+  "name": "mobile-ftp-image-viewer",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "lucide-react": "^0.263.1"
+  },
+  "devDependencies": {
+    "vite": "^4.4.5",
+    "@vite-pwa/vite-plugin": "^0.16.4",
+    "vite-plugin-pwa": "^0.16.4"
+  }
+}
