@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.appexsoul.cameraimages.databinding.ActivityMainBinding
 import org.apache.commons.net.ftp.FTPClient
 import java.io.File
@@ -57,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         val password = "Quickcam_02"
         val folder = "/"
 
-        Thread {
+        lifecycleScope.launch(Dispatchers.IO) {
             val ftpClient = FTPClient()
             try {
                 ftpClient.connect(host)
@@ -66,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE)
 
                 if (success) {
-                    runOnUiThread {
+                    withContext(Dispatchers.Main) {
                         updateStatus("Loading images...", true)
                     }
 
@@ -85,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
                             if (downloaded) {
                                 imageCount++
-                                runOnUiThread {
+                                withContext(Dispatchers.Main) {
                                     adapter.addImage(localFile.absolutePath)
                                     updateStatus("Loaded $imageCount images", false)
                                 }
@@ -95,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
-                    runOnUiThread {
+                    withContext(Dispatchers.Main) {
                         if (imageCount > 0) {
                             updateStatus("$imageCount images loaded successfully", false)
                         } else {
@@ -104,16 +108,16 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     Log.e(TAG, "FTP login failed")
-                    runOnUiThread {
+                    withContext(Dispatchers.Main) {
                         updateStatus("Connection failed", false)
-                        Toast.makeText(this, "Failed to connect to FTP server", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, "Failed to connect to FTP server", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading images: ${e.message}", e)
-                runOnUiThread {
+                withContext(Dispatchers.Main) {
                     updateStatus("Error: ${e.message}", false)
-                    Toast.makeText(this, "FTP error: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, "FTP error: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             } finally {
                 try {
@@ -125,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                     Log.e(TAG, "Error closing FTP connection: ${e.message}", e)
                 }
             }
-        }.start()
+        }
     }
 
     private fun refreshImages() {
