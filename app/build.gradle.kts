@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     
     // Additional Material Design Components
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
