@@ -1,9 +1,6 @@
 package com.appexsoul.cameraimages
 
 import android.content.Context
-import android.media.MediaScannerConnection
-import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -16,8 +13,15 @@ import java.text.DecimalFormat
 import kotlin.math.log10
 import kotlin.math.pow
 
-class ImageAdapter(private val imagePaths: MutableList<String>, val context: Context) :
-    RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(
+    private val imagePaths: MutableList<String>,
+    val context: Context,
+    private val downloadListener: OnImageDownloadListener
+) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+
+    interface OnImageDownloadListener {
+        fun onImageDownloadRequested(file: File)
+    }
 
     inner class ImageViewHolder(val binding: ItemImageBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -45,7 +49,7 @@ class ImageAdapter(private val imagePaths: MutableList<String>, val context: Con
 
         // Download button click listener
         holder.binding.btnDownload.setOnClickListener {
-            downloadImage(file)
+            downloadListener.onImageDownloadRequested(file)
         }
 
         // Card click listener for full view (optional)
@@ -68,26 +72,6 @@ class ImageAdapter(private val imagePaths: MutableList<String>, val context: Con
         notifyItemRangeRemoved(0, size)
     }
 
-    private fun downloadImage(file: File) {
-        try {
-            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val destFile = File(downloadsDir, file.name)
-
-            file.copyTo(destFile, overwrite = true)
-
-            Toast.makeText(context, "Downloaded to Downloads folder", Toast.LENGTH_SHORT).show()
-
-            MediaScannerConnection.scanFile(
-                context,
-                arrayOf(destFile.absolutePath),
-                null,
-                null
-            )
-        } catch (e: Exception) {
-            Log.e("ImageAdapter", "Error downloading file: ${e.message}")
-            Toast.makeText(context, "Download failed: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     private fun formatFileSize(bytes: Long): String {
         if (bytes <= 0) return "0 B"
