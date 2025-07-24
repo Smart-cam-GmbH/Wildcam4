@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.appexsoul.cameraimages.databinding.ActivityMainBinding
 import org.apache.commons.net.ftp.FTPClient
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 
@@ -18,7 +19,27 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: ImageAdapter
+    private lateinit var ftpConfig: FTPConfig
     private val TAG = "FTP_IMAGE_DEBUG"
+
+    data class FTPConfig(
+        val host: String,
+        val username: String,
+        val password: String,
+        val folder: String
+    )
+
+    private fun loadFTPConfig(): FTPConfig {
+        val inputStream = resources.openRawResource(R.raw.ftp_config)
+        val json = inputStream.bufferedReader().use { it.readText() }
+        val obj = JSONObject(json)
+        return FTPConfig(
+            obj.getString("host"),
+            obj.getString("username"),
+            obj.getString("password"),
+            obj.getString("folder")
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -33,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupUI()
+        ftpConfig = loadFTPConfig()
         loadImagesFromFTP()
     }
 
@@ -52,10 +74,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadImagesFromFTP() {
-        val host = "213.3.5.20"
-        val username = "Wildcam"
-        val password = "Quickcam_02"
-        val folder = "/"
+        val host = ftpConfig.host
+        val username = ftpConfig.username
+        val password = ftpConfig.password
+        val folder = ftpConfig.folder
 
         Thread {
             val ftpClient = FTPClient()

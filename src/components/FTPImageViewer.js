@@ -4,18 +4,30 @@ export class FTPImageViewer {
     this.isLoading = false
     this.container = null
     
-    // FTP Configuration
+    // FTP Configuration - loaded from external config
     this.ftpConfig = {
-      host: '213.3.5.20',
-      username: 'Wildcam',
-      password: 'Quickcam_02',
+      host: '',
+      username: '',
+      password: '',
       folder: '/'
     }
   }
 
-  mount(selector) {
+  async loadConfig() {
+    try {
+      const resp = await fetch('/config.json')
+      if (resp.ok) {
+        this.ftpConfig = await resp.json()
+      }
+    } catch (err) {
+      console.error('Failed to load FTP config', err)
+    }
+  }
+
+  async mount(selector) {
     this.container = document.querySelector(selector)
     this.render()
+    await this.loadConfig()
     this.loadImages()
   }
 
