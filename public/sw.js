@@ -1,27 +1,6 @@
-const CACHE_NAME = 'camera-images-v1'
-const urlsToCache = [
-  '/',
-  '/src/main.js',
-  '/src/style.css',
-  '/src/components/MobileFTPViewer.js',
-  '/manifest.json'
-]
+// Service worker used with vite-plugin-pwa (injectManifest strategy).
+// The plugin will replace `self.__WB_MANIFEST` with the list of build assets
+// so that the correct hashed files are cached for offline usage.
+import { precacheAndRoute } from 'workbox-precaching'
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(urlsToCache))
-  )
-})
-
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
-          return response
-        }
-        return fetch(event.request)
-      })
-  )
-})
+precacheAndRoute(self.__WB_MANIFEST)
