@@ -258,9 +258,10 @@ export class MobileFTPViewer {
 
   async loadImages() {
     this.setLoading(true)
-    
+
     try {
       await this.simulateFTPLoad()
+      this.sortImagesDescending()
       this.calculateTotalSize()
       this.setLoading(false)
       this.updateContent()
@@ -365,6 +366,15 @@ export class MobileFTPViewer {
       contentArea.innerHTML = this.renderContent()
     }
     this.updateStats()
+  }
+
+  sortImagesDescending() {
+    this.images.sort((a, b) => {
+      if (a.date && b.date) {
+        return new Date(b.date) - new Date(a.date)
+      }
+      return b.name.localeCompare(a.name)
+    })
   }
 
   updateStats() {

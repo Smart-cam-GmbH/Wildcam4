@@ -111,12 +111,14 @@ export class FTPImageViewer {
 
   async loadImages() {
     this.setLoading(true, 'Connecting to FTP server...')
-    
+
     try {
       // Simulate FTP connection and image loading
       // In a real implementation, you'd need a backend service to handle FTP
       await this.simulateFTPLoad()
-      
+
+      this.sortImagesDescending()
+
       this.setLoading(false, `${this.images.length} images loaded successfully`)
       this.updateImagesContainer()
       
@@ -200,6 +202,15 @@ export class FTPImageViewer {
     if (container) {
       container.innerHTML = this.renderImages()
     }
+  }
+
+  sortImagesDescending() {
+    this.images.sort((a, b) => {
+      if (a.date && b.date) {
+        return new Date(b.date) - new Date(a.date)
+      }
+      return b.name.localeCompare(a.name)
+    })
   }
 
   async downloadImage(url, filename) {
