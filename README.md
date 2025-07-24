@@ -12,7 +12,15 @@ This project is a simple mobile FTP image viewer. It provides a web interface bu
    ```bash
    npm run dev
    ```
-   The viewer will be available at the local URL printed by Vite.
+The viewer will be available at the local URL printed by Vite.
+
+### Configuration
+
+FTP connection details are no longer hard coded. Edit `public/config.json` to
+change the host, username, password and folder used by the web viewer. The
+Android application reads the same values from
+`app/src/main/res/raw/ftp_config.json`. These JSON files are read at runtime, so
+you can update them without rebuilding the project.
 
 ## Building/Running the Android App
 
