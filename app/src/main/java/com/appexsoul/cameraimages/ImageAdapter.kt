@@ -1,12 +1,16 @@
 package com.appexsoul.cameraimages
 
+import android.Manifest
+import android.content.ContentValues
 import android.content.Context
-import android.media.MediaScannerConnection
+import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.appexsoul.cameraimages.databinding.ItemImageBinding
 import com.bumptech.glide.Glide
@@ -69,20 +73,39 @@ class ImageAdapter(private val imagePaths: MutableList<String>, val context: Con
     }
 
     private fun downloadImage(file: File) {
-        try {
-            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val destFile = File(downloadsDir, file.name)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+            android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            Toast.makeText(context, "Storage permission required to save file", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-            file.copyTo(destFile, overwrite = true)
+        val resolver = context.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, file.name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+            }
+        }
+
+        try {
+            val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+            if (uri == null) {
+                Toast.makeText(context, "Failed to create destination", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            resolver.openOutputStream(uri)?.use { output ->
+                file.inputStream().use { input ->
+                    input.copyTo(output)
+                }
+            }
 
             Toast.makeText(context, "Downloaded to Downloads folder", Toast.LENGTH_SHORT).show()
-
-            MediaScannerConnection.scanFile(
-                context,
-                arrayOf(destFile.absolutePath),
-                null,
-                null
-            )
+        } catch (e: SecurityException) {
+            Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Log.e("ImageAdapter", "Error downloading file: ${e.message}")
             Toast.makeText(context, "Download failed: ${e.message}", Toast.LENGTH_SHORT).show()
