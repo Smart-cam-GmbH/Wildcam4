@@ -8,9 +8,7 @@
     "build": "vite build",
     "preview": "vite preview --host"
   },
-  "dependencies": {
-    "lucide-react": "^0.263.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "vite": "^4.4.5",
     "@vite-pwa/vite-plugin": "^0.16.4",
