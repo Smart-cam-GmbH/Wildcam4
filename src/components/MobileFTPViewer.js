@@ -7,12 +7,12 @@ export class MobileFTPViewer {
     this.totalSize = 0
     this.downloadCount = 0
     
-    // FTP Configuration
+    // FTP Configuration loaded from environment variables
     this.ftpConfig = {
-      host: '213.3.5.20',
-      username: 'Wildcam',
-      password: 'Quickcam_02',
-      folder: '/'
+      host: import.meta.env.VITE_FTP_HOST,
+      username: import.meta.env.VITE_FTP_USERNAME,
+      password: import.meta.env.VITE_FTP_PASSWORD,
+      folder: import.meta.env.VITE_FTP_FOLDER
     }
 
     // Touch handling for pull-to-refresh

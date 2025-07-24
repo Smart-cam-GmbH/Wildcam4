@@ -3,6 +3,20 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+// Load configuration from the repository root .env file
+import java.util.Properties
+
+val envProps = Properties()
+val envFile = rootProject.file(".env")
+if (envFile.exists()) {
+    envFile.inputStream().use { envProps.load(it) }
+}
+
+val ftpHost: String = envProps.getProperty("VITE_FTP_HOST", "213.3.5.20")
+val ftpUser: String = envProps.getProperty("VITE_FTP_USERNAME", "Wildcam")
+val ftpPass: String = envProps.getProperty("VITE_FTP_PASSWORD", "Quickcam_02")
+val ftpFolder: String = envProps.getProperty("VITE_FTP_FOLDER", "/")
+
 android {
     namespace = "com.appexsoul.cameraimages"
     compileSdk = 35
@@ -15,6 +29,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Expose FTP configuration to the app
+        buildConfigField("String", "FTP_HOST", "\"$ftpHost\"")
+        buildConfigField("String", "FTP_USERNAME", "\"$ftpUser\"")
+        buildConfigField("String", "FTP_PASSWORD", "\"$ftpPass\"")
+        buildConfigField("String", "FTP_FOLDER", "\"$ftpFolder\"")
     }
 
     buildTypes {

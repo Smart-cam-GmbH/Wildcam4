@@ -52,10 +52,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadImagesFromFTP() {
-        val host = "213.3.5.20"
-        val username = "Wildcam"
-        val password = "Quickcam_02"
-        val folder = "/"
+        val host = BuildConfig.FTP_HOST
+        val username = BuildConfig.FTP_USERNAME
+        val password = BuildConfig.FTP_PASSWORD
+        val folder = BuildConfig.FTP_FOLDER
 
         Thread {
             val ftpClient = FTPClient()
