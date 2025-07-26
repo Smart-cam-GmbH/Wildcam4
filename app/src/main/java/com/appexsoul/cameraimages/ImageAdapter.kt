@@ -54,8 +54,10 @@ class ImageAdapter(private val imagePaths: MutableList<String>, val context: Con
 
         // Card click listener for full view (optional)
         holder.itemView.setOnClickListener {
-            // You can implement image preview here
-            Toast.makeText(context, "Viewing ${file.name}", Toast.LENGTH_SHORT).show()
+            val intent = android.content.Intent(context, ImageViewerActivity::class.java).apply {
+                putExtra(ImageViewerActivity.EXTRA_IMAGE_PATH, file.absolutePath)
+            }
+            context.startActivity(intent)
         }
     }
 
