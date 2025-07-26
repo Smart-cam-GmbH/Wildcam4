@@ -373,7 +373,10 @@ export class MobileFTPViewer {
       if (a.date && b.date) {
         return new Date(b.date) - new Date(a.date)
       }
-      return b.name.localeCompare(a.name)
+      return b.name.localeCompare(a.name, undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      })
     })
   }
 

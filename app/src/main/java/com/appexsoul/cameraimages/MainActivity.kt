@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity() {
 
                     Log.d(TAG, "Connected to FTP")
                     val files = ftpClient.listFiles(folder)
+                        .sortedByDescending { it.timestamp.time }
+                        .toTypedArray()
                     Log.d(TAG, "Total files: ${files.size}")
 
                     var imageCount = 0
