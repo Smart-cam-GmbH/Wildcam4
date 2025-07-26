@@ -35,6 +35,7 @@ export class MobileFTPViewer {
   async mount(selector) {
     this.container = document.querySelector(selector)
     this.render()
+    this.setupModalHandlers()
     await this.loadConfig()
     this.setupTouchHandlers()
     this.loadImages()
@@ -98,6 +99,13 @@ export class MobileFTPViewer {
             <span>Settings</span>
           </button>
         </nav>
+
+        <div id="image-modal" class="image-modal" style="display:none">
+          <div class="modal-content">
+            <img id="modal-image" src="" alt="View" />
+            <button id="close-modal" class="close-button">&times;</button>
+          </div>
+        </div>
       </div>
     `
   }
@@ -256,6 +264,78 @@ export class MobileFTPViewer {
     }, { passive: true })
   }
 
+  setupModalHandlers() {
+    const modal = document.getElementById('image-modal')
+    const closeBtn = document.getElementById('close-modal')
+    if (modal && closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none'
+      })
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none'
+      })
+    }
+  }
+
+  initImageZoom(img) {
+    let scale = 1
+    let startDistance = 0
+    const pointers = []
+
+    const getDistance = () => {
+      if (pointers.length < 2) return 0
+      const dx = pointers[0].clientX - pointers[1].clientX
+      const dy = pointers[0].clientY - pointers[1].clientY
+      return Math.hypot(dx, dy)
+    }
+
+    const onPointerDown = (e) => {
+      pointers.push(e)
+      if (pointers.length === 2) {
+        startDistance = getDistance()
+      }
+    }
+
+    const onPointerMove = (e) => {
+      for (let i = 0; i < pointers.length; i++) {
+        if (pointers[i].pointerId === e.pointerId) pointers[i] = e
+      }
+      if (pointers.length === 2) {
+        const dist = getDistance()
+        const delta = dist / startDistance
+        img.style.transform = `scale(${scale * delta})`
+      }
+    }
+
+    const onPointerUp = (e) => {
+      for (let i = 0; i < pointers.length; i++) {
+        if (pointers[i].pointerId === e.pointerId) {
+          pointers.splice(i, 1)
+          break
+        }
+      }
+      if (pointers.length < 2) {
+        const match = /scale\(([^)]+)\)/.exec(img.style.transform)
+        scale = match ? parseFloat(match[1]) : 1
+      }
+    }
+
+    img.onpointerdown = onPointerDown
+    img.onpointermove = onPointerMove
+    img.onpointerup = onPointerUp
+    img.onpointercancel = onPointerUp
+
+    img.addEventListener('wheel', (e) => {
+      e.preventDefault()
+      scale += e.deltaY * -0.001
+      scale = Math.min(Math.max(1, scale), 4)
+      img.style.transform = `scale(${scale})`
+    })
+
+    img.style.transform = 'scale(1)'
+    img.style.touchAction = 'none'
+  }
+
   async loadImages() {
     this.setLoading(true)
 
@@ -313,6 +393,7 @@ export class MobileFTPViewer {
   switchView(view) {
     this.currentView = view
     this.render()
+    this.setupModalHandlers()
     if (view === 'gallery') {
       this.setupTouchHandlers()
     }
@@ -320,8 +401,13 @@ export class MobileFTPViewer {
 
   viewImage(index) {
     const image = this.images[index]
-    this.showToast(`Viewing ${image.name}`, 'info')
-    // In a real app, you might open a full-screen image viewer here
+    const modal = document.getElementById('image-modal')
+    const modalImg = document.getElementById('modal-image')
+    if (modal && modalImg) {
+      modalImg.src = image.url
+      modal.style.display = 'flex'
+      this.initImageZoom(modalImg)
+    }
   }
 
   async downloadImage(url, filename) {
