@@ -30,7 +30,7 @@ class SMSCommandActivity : AppCompatActivity() {
             val phone = binding.phoneEditText.text.toString()
             val command = commands[binding.commandSpinner.selectedItemPosition]
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                SMSHelper.sendCommand(this, phone, command.code)
+                SMSHelper.sendCommand(phone, command.code)
                 Toast.makeText(this, "Command sent", Toast.LENGTH_SHORT).show()
             } else {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), REQUEST_SMS_PERMISSION)
