@@ -43,3 +43,8 @@ The Android app includes a simple interface for sending predefined SMS commands.
 4. Tap **Send** to transmit the SMS.
 
 Commands can be adjusted in `SMSCommandActivity` if needed.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). By contributing, you agree that your contributions will be licensed under the same terms.
+
