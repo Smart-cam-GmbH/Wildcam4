@@ -51,7 +51,7 @@ export class MobileFTPViewer {
           <div class="header-content">
             <h1 class="app-title">
               ${this.getCameraIcon()}
-              Camera Images
+              Wildcam Viewer
             </h1>
             <div class="connection-status">
               <div class="status-dot ${this.getStatusClass()}"></div>
@@ -210,7 +210,7 @@ export class MobileFTPViewer {
         <div style="background: var(--surface); border-radius: var(--border-radius); padding: var(--spacing-lg); box-shadow: var(--shadow); margin-top: var(--spacing-md);">
           <h3 style="margin-bottom: var(--spacing-md); color: var(--text-primary);">App Info</h3>
           <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-sm);">Version 1.0.0</p>
-          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-sm);">Mobile FTP Image Viewer</p>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--spacing-sm);">Wildcam Viewer for Mobile</p>
           <p style="color: var(--text-secondary); line-height: 1.6;">Built for seamless image browsing and downloading from FTP servers.</p>
         </div>
       </div>

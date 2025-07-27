@@ -35,7 +35,7 @@ export class FTPImageViewer {
     this.container.innerHTML = `
       <div class="app-container">
         <header class="header">
-          <h1>Camera Images</h1>
+          <h1>Wildcam Viewer</h1>
         </header>
         
         <main class="main-content">

@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Camera Images"
+rootProject.name = "Wildcam Viewer"
 include(":app")
