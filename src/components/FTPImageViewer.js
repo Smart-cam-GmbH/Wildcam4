@@ -15,7 +15,7 @@ export class FTPImageViewer {
 
   async loadConfig() {
     try {
-      const resp = await fetch('/config.json')
+      const resp = await fetch('/ftp_config.json')
       if (resp.ok) {
         this.ftpConfig = await resp.json()
       }

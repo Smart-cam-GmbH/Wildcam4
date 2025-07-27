@@ -15,3 +15,7 @@
 local.properties
 .env
 package-lock.json
+
+# Local FTP configuration
+public/ftp_config.json
+app/src/main/res/raw/ftp_config.json
