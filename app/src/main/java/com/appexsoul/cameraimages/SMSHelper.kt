@@ -7,4 +7,12 @@ object SMSHelper {
         val manager = SmsManager.getDefault()
         manager.sendTextMessage(phone, null, command, null, null)
     }
+
+    /**
+     * Normalize an SMS command entered by the user.
+     * Whitespace is trimmed and the command is upper-cased.
+     */
+    fun parseCommand(raw: String): String {
+        return raw.trim().uppercase()
+    }
 }

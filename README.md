@@ -43,3 +43,12 @@ The Android app includes a simple interface for sending predefined SMS commands.
 4. Tap **Send** to transmit the SMS.
 
 Commands can be adjusted in `SMSCommandActivity` if needed.
+
+## Running Tests
+
+Unit tests and instrumentation tests can be executed with Gradle:
+
+```bash
+./gradlew test                # Run local unit tests
+./gradlew connectedAndroidTest # Run instrumentation tests on a device/emulator
+```
