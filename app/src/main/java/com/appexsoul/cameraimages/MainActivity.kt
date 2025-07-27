@@ -117,7 +117,8 @@ class MainActivity : AppCompatActivity() {
                             Log.d(TAG, "Downloading file: ${file.name}")
                             val localFile = File(cacheDir, file.name)
                             val outputStream = FileOutputStream(localFile)
-                            val downloaded = ftpClient.retrieveFile("${folder}${file.name}", outputStream)
+                            val path = buildRemotePath(folder, file.name)
+                            val downloaded = ftpClient.retrieveFile(path, outputStream)
                             outputStream.close()
 
                             if (downloaded) {
