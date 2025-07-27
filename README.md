@@ -43,7 +43,9 @@ The Android app includes a simple interface for sending predefined SMS commands.
 3. Enter the destination phone number and pick a command from the list.
 4. Tap **Send** to transmit the SMS.
 
-Commands can be adjusted in `SMSCommandActivity` if needed.
+The list of available commands is defined in
+`app/src/main/res/raw/sms_commands.json`. You can edit this JSON file and
+restart the app to update the commands without rebuilding the project.
 
 ## License
 
