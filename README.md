@@ -1,4 +1,4 @@
-# Camera Images
+# Wildcam Viewer
 
 This project is a simple mobile FTP image viewer. It provides a web interface built with Vite and an Android application using Gradle.
 

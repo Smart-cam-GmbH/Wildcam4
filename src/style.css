@@ -1,9 +1,10 @@
 :root {
-  --primary: #2196F3;
-  --primary-dark: #1976D2;
-  --primary-light: #E3F2FD;
-  --accent: #FF4081;
-  --accent-dark: #C2185B;
+  /* Natural color palette for wildcam theme */
+  --primary: #4CAF50;
+  --primary-dark: #388E3C;
+  --primary-light: #C8E6C9;
+  --accent: #8D6E63;
+  --accent-dark: #5D4037;
   --background: #FAFAFA;
   --surface: #FFFFFF;
   --card-background: #FFFFFF;
