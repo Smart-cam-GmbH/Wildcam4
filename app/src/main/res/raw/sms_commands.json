@@ -1,0 +1,5 @@
+[
+  {"name": "CAPTURE", "code": "CAPTURE"},
+  {"name": "STATUS", "code": "STATUS"},
+  {"name": "REBOOT", "code": "REBOOT"}
+]
