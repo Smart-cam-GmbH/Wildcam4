@@ -32,3 +32,14 @@ Use the Gradle wrapper to build or install the Android application:
 ```
 
 You can also open the project in Android Studio for a full development environment.
+
+## Sending SMS Commands
+
+The Android app includes a simple interface for sending predefined SMS commands.
+
+1. Grant the **Send SMS** permission when prompted.
+2. From the main screen, open the menu and choose **SMS Commands**.
+3. Enter the destination phone number and pick a command from the list.
+4. Tap **Send** to transmit the SMS.
+
+Commands can be adjusted in `SMSCommandActivity` if needed.

@@ -22,7 +22,8 @@
             android:background="@color/primary"
             app:title="@string/app_name"
             app:titleTextColor="@color/white"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:menu="@menu/main_menu" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

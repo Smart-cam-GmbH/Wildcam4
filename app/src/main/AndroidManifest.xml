@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -28,6 +29,10 @@
         </activity>
         <activity
             android:name=".ImageViewerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CameraImages" />
+        <activity
+            android:name=".SMSCommandActivity"
             android:exported="false"
             android:theme="@style/Theme.CameraImages" />
     </application>
